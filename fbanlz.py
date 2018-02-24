@@ -4,7 +4,24 @@
 
 import sys
 import os
+import datetime
 import xml.etree.ElementTree as et
+
+
+MONTHS = [
+    "Januar",
+    "Februar",
+    "März",
+    "April",
+    "Mai",
+    "Juni",
+    "Juli",
+    "August",
+    "September",
+    "Oktober",
+    "November",
+    "Dezember",
+]
 
 
 def getstarterdir():
@@ -20,10 +37,26 @@ def extract_datestrings(file):
     return [element.text for element in root.findall("body/div[@class='contents']/ul[2]/li/p")]
 
 
+def parse_datestrings(datestrings):
+    dates = []
+    for datestring in datestrings:
+        parts = datestring.split()
+        hour, minute = [int(val) for val in parts[5].split(":")]
+        dates.append(datetime.datetime(
+            int(parts[3]),
+            MONTHS.index(parts[2]) + 1,
+            int(parts[1][:-1]),
+            hour,
+            minute
+        ))
+    return dates
+
+
 def main():
     session_file = os.path.join(getstarterdir(), "fbdata", "html", "security.htm")
     datestrings = extract_datestrings(session_file)
-    for date in datestrings:
+    dates = parse_datestrings(datestrings)
+    for date in dates:
         print(date)
 
 
