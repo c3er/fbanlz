@@ -6,6 +6,7 @@ import sys
 import os
 import datetime
 import xml.etree.ElementTree as et
+import calendar
 
 
 MONTHS = [
@@ -56,8 +57,14 @@ def main():
     session_file = os.path.join(getstarterdir(), "fbdata", "html", "security.htm")
     datestrings = extract_datestrings(session_file)
     dates = parse_datestrings(datestrings)
-    for date in dates:
-        print(date)
+
+    years = [date.year for date in dates]
+    startyear = min(years)
+    endyear = max(years)
+
+    cal = calendar.HTMLCalendar()
+    with open(os.path.join(getstarterdir(), "logons.html"), "w", encoding="utf8") as f:
+        f.write(cal.formatpage(startyear, endyear))
 
 
 if __name__ == "__main__":
