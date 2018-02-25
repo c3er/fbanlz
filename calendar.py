@@ -32,14 +32,14 @@ HTML_TEMPLATE = """\
                 border-spacing: 0;
             }
             table.month {
-                border: 1px solid lightgrey;
+                border: 1px solid #707070;
             }
             td {
                 padding: 10px;
                 vertical-align: top;
             }
             .day {
-                border: 1px solid lightgrey;
+                border: 1px solid #707070;
             }
         </style>
         <style type="text/css">
@@ -240,7 +240,7 @@ class HTMLCalendar(Calendar):
         if day == 0:
             return '<td class="day">&nbsp;</td>' # day outside month
         else:
-            return f'<td class="day {self.cssclasses[weekday]}" id="{theyear}{themonth:02d}{day:02d}">{day}</td>'
+            return f'<td class="day {self.cssclasses[weekday]}" id="_{theyear}{themonth:02d}{day:02d}">{day}</td>'
 
     def formatweek(self, theweek, theyear, themonth):
         """Return a complete week as a table row."""
